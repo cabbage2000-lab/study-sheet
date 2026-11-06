@@ -34,5 +34,19 @@
   "linuxCI": "https://github.com/cabbage2000-lab/study-sheet/actions/runs/42202835676",
   "linuxCIResult": "success",
   "codexSession": "completed; permission-reviewed browser retry",
-  "claudeSession": "completed; HTML screenshot checked by host, PDF checked independently"
+  "claudeSession": "completed; HTML screenshot checked by host, PDF checked independently",
+  "version": "1.0.0",
+  "layoutRegression": {
+    "version": "1.0.1",
+    "date": "2026-11-06",
+    "typecheck": "passed",
+    "unitTests": 11,
+    "browserTests": 6,
+    "negativeControls": [
+      "left-aligned metadata detected",
+      "stacked section title and instructions detected"
+    ],
+    "pdfReview": "student PDFs for all three subjects, English answers and Chinese copying page checked",
+    "record": "docs/layout-review.md"
+  }
 }

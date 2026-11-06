@@ -24,10 +24,14 @@ h1 { font-size:24px; line-height:32px; margin:0; font-weight:600; overflow-wrap:
 .paper-frame { flex-shrink:0; scroll-margin-top:16px }
 .paper { width:210mm; height:297mm; padding:var(--margin); background:#fff; box-shadow:0 1px 5px #00000012; display:flex; flex-direction:column; color:#111; font-family:'Study Sans',sans-serif; font-size:var(--font); line-height:1.55; transform-origin:top left; overflow:visible; print-color-adjust:exact; -webkit-print-color-adjust:exact }
 .sheet-header { flex:none; border-bottom:.3mm solid #333; padding-bottom:3mm; margin-bottom:3mm }
-.sheet-title { font-size:18pt; line-height:1.4; font-weight:600; margin:0 0 2mm; overflow-wrap:anywhere; text-align:center }
-.sheet-meta { display:flex; flex-wrap:wrap; gap:4mm; font-size:10pt; line-height:1.8 }
-.section-title { margin:2mm 0 0; font-size:12pt; font-weight:600; overflow-wrap:anywhere }
-.instructions { margin:1mm 0 0; font-size:10pt; overflow-wrap:anywhere; white-space:pre-wrap }
+.sheet-title { font-size:18pt; line-height:1.4; font-weight:600; margin:0 0 3mm; overflow-wrap:anywhere; text-align:center }
+.sheet-meta { display:flex; flex-wrap:wrap; justify-content:center; gap:2mm 6mm; font-size:10pt; line-height:1.8; text-align:center }
+.sheet-meta > span { min-width:0; max-width:100%; overflow-wrap:anywhere }
+.section-heading { display:flex; align-items:baseline; column-gap:3mm; flex:none }
+.sheet-header .section-heading { margin-top:3mm }
+.section-title { flex:0 1 auto; min-width:0; margin:0; font-size:12pt; line-height:1.65; font-weight:600; overflow-wrap:anywhere }
+.section-heading.with-instructions .section-title { max-width:45% }
+.instructions { flex:1; min-width:0; margin:0; font-size:10pt; line-height:1.8; color:#444; overflow-wrap:anywhere; white-space:pre-wrap }
 .sheet-body { flex:1; min-height:0; display:flex; flex-direction:column; gap:var(--gap) }
 .sheet-footer { flex:none; margin-top:3mm; padding-top:2mm; border-top:.2mm solid #ccc; display:flex; justify-content:space-between; font-size:9pt; color:#555; gap:4mm }
 .row { display:grid; grid-template-columns:repeat(var(--columns),minmax(0,1fr)); gap:var(--gap); flex:none; align-items:start }

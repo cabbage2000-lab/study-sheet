@@ -122,3 +122,65 @@ test('titles are centered and one- to three-digit numbers align with their promp
     await page.screenshot({ path: join(temp, 'alignment.png'), fullPage: true });
   } finally { await browser.close(); }
 });
+
+test('metadata is centered and section titles share the instruction baseline without clipping', { timeout: 120000 }, async () => {
+  const longInstructions = '请按照题目顺序完成，写完后检查字母占格和词义。'.repeat(8) + '\n完成后再次检查。';
+  const longSectionTitle = '需要完整保留的较长题型标题'.repeat(5);
+  const { out } = await fixture('header', { version: 1, title: '英语词汇综合巩固练习'.repeat(4), grade: '小学三年级', date: '2026-11-06', sections: [
+    { task: 'zh-en', title: '看中文写英文', instructions: '根据中文写出英文，注意字母占格。', items: [{ english: 'apple', chinese: '苹果' }] },
+    { task: 'zh-en', title: '长说明', instructions: longInstructions, items: [{ english: 'school', chinese: '学校' }] },
+    { task: 'zh-en', title: longSectionTitle, instructions: '每个单词写一遍。', items: [{ english: 'friend', chinese: '朋友' }] },
+    { task: 'en-zh', title: '词义回顾', items: [{ english: 'library', chinese: '图书馆' }] }
+  ] });
+  const browser = await launchBrowser(); const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
+  const geometry = () => page.evaluate(() => {
+    const metadata = Array.from(document.querySelectorAll('.sheet-meta')).map(meta => {
+      const rects = Array.from(meta.children).map(field => { const range = document.createRange(); range.selectNodeContents(field); return range.getBoundingClientRect(); });
+      const paper = meta.closest('.paper')!.getBoundingClientRect();
+      return Math.abs((Math.min(...rects.map(r => r.left)) + Math.max(...rects.map(r => r.right)) - paper.left - paper.right) / 2);
+    });
+    const headings = Array.from(document.querySelectorAll<HTMLElement>('.section-heading.with-instructions')).map(heading => {
+      const title = heading.querySelector<HTMLElement>('.section-title')!; const instructions = heading.querySelector<HTMLElement>('.instructions')!;
+      const baselines = [title, instructions].map(node => {
+        const marker = document.createElement('span'); marker.style.cssText = 'display:inline-block;width:0;height:0;padding:0;border:0;vertical-align:baseline';
+        node.prepend(marker); const top = marker.getBoundingClientRect().top; marker.remove(); return top;
+      });
+      const titleBox = title.getBoundingClientRect(); const instructionBox = instructions.getBoundingClientRect();
+      return { title: title.textContent, gap: instructionBox.left - titleBox.right, baselineDifference: Math.abs(baselines[0] - baselines[1]), lines: instructionBox.height / parseFloat(getComputedStyle(instructions).lineHeight) };
+    });
+    const clipped = Array.from(document.querySelectorAll<HTMLElement>('.sheet-header,.sheet-meta,.section-heading,.section-title,.instructions')).filter(node => {
+      const bounds = node.getBoundingClientRect(); const paper = node.closest('.paper')!; const paperBox = paper.getBoundingClientRect(); const style = getComputedStyle(paper);
+      return node.scrollWidth > node.clientWidth + 1 || bounds.left < paperBox.left + parseFloat(style.paddingLeft) - 1 || bounds.right > paperBox.right - parseFloat(style.paddingRight) + 1;
+    }).length;
+    return { metadata, headings, clipped };
+  });
+  try {
+    for (const kind of ['worksheet', 'answers']) {
+      await page.emulateMedia({ media: 'screen' });
+      await page.goto(pathToFileURL(join(out, `${kind}.html`)).href);
+      await page.waitForFunction(() => document.documentElement.dataset.ready || document.documentElement.dataset.error);
+      assert.equal(await page.locator('html').getAttribute('data-error'), null, `${kind}: layout succeeds before printing`);
+      await page.emulateMedia({ media: 'print' });
+      const measured = await geometry();
+      assert.ok(measured.metadata.length > 0 && measured.metadata.every(offset => offset < 1), `${kind}: actual metadata text is centered`);
+      assert.ok((await titleOffsets(page)).every(offset => offset < 1), `${kind}: wrapped title text is centered`);
+      assert.equal(measured.clipped, 0, `${kind}: header content fits the printable width`);
+      assert.equal(await page.locator('.question:not([data-continuation])').count(), 4);
+      if (kind === 'worksheet') {
+        assert.ok(await page.locator('.section-break.with-instructions').count() > 0, 'the same layout is used for mid-page sections');
+        assert.ok(measured.headings.every(h => h.gap >= 2 && h.baselineDifference < 1), 'titles and instructions align on the first baseline');
+        assert.ok(measured.headings.find(h => h.title === '看中文写英文')!.lines < 1.1, 'short instructions stay on the title row');
+        assert.ok(measured.headings.find(h => h.title === '长说明')!.lines > 2, 'long instructions wrap in their own column');
+        assert.ok(measured.headings.some(h => h.title === longSectionTitle), 'long headings remain complete');
+        assert.ok((await page.locator('.instructions').allTextContents()).includes(longInstructions), 'line breaks and instruction text are preserved');
+        const leftAligned = await page.addStyleTag({ content: '.sheet-meta { justify-content:flex-start!important; }' });
+        assert.ok((await geometry()).metadata.some(offset => offset > 10), 'the check detects left-aligned metadata');
+        await leftAligned.evaluate(node => node.parentNode!.removeChild(node));
+        const stacked = await page.addStyleTag({ content: '.section-heading { display:block!important; }' });
+        assert.ok((await geometry()).headings[0].baselineDifference > 10, 'the check detects stacked headings and instructions');
+        await stacked.evaluate(node => node.parentNode!.removeChild(node));
+      }
+      await page.locator('.paper').first().screenshot({ path: join(temp, `header-${kind}.png`) });
+    }
+  } finally { await browser.close(); }
+});

@@ -72,6 +72,12 @@ function question(item: PublicItem, s: PublicSection, width: number, fontPt: num
   }
   return q;
 }
+function sectionHeading(s: PublicSection): HTMLElement {
+  const heading = el('div', `section-heading${s.instructions ? ' with-instructions' : ''}`);
+  heading.append(el('h3', 'section-title', s.title));
+  if (s.instructions) heading.append(el('p', 'instructions', s.instructions));
+  return heading;
+}
 function makePage(s: PublicSection, fontPt: number, target: HTMLElement): HTMLElement {
   const paper = el('section', 'paper');
   paper.style.setProperty('--margin', `${data.layout.marginMm}mm`);
@@ -79,7 +85,7 @@ function makePage(s: PublicSection, fontPt: number, target: HTMLElement): HTMLEl
   const header = el('header', 'sheet-header'); header.append(el('h2', 'sheet-title', data.title));
   const meta = el('div', 'sheet-meta');
   meta.append(el('span', '', '姓名：____________'), el('span', '', data.grade ? `年级：${data.grade}` : '班级：____________'), el('span', '', `日期：${data.date || '____________'}`));
-  header.append(meta, el('h3', 'section-title', s.title)); if (s.instructions) header.append(el('p', 'instructions', s.instructions));
+  header.append(meta, sectionHeading(s));
   paper.append(header, el('div', 'sheet-body'));
   const footer = el('footer', 'sheet-footer'); footer.append(el('span', '', data.kind === 'answers' ? '参考答案 · 请与题号对应' : '认真审题，书写工整。'), el('span', 'page-number', '第 1 页 / 共 1 页'));
   paper.append(footer); target.append(paper); return paper;
@@ -170,8 +176,7 @@ async function render(): Promise<void> {
         if (destination) {
           const body = destination.querySelector<HTMLElement>('.sheet-body')!;
           if (!sectionStarted) {
-            subheading = el('div', 'section-break'); subheading.append(el('h3', 'section-title', s.title));
-            if (s.instructions) subheading.append(el('p', 'instructions', s.instructions)); body.append(subheading);
+            subheading = sectionHeading(s); subheading.classList.add('section-break'); body.append(subheading);
           }
           body.append(nextRow);
           if (!bodyFits(body)) { nextRow.remove(); subheading?.remove(); destination = undefined; }
