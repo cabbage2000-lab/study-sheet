@@ -30,6 +30,9 @@
       "answersPresent": true
     }
   },
-  "workbuddy": "pending native app session validation",
-  "linuxCI": "pending first remote run"
+  "workbuddy": "pending; user approved publishing with this limitation",
+  "linuxCI": "https://github.com/cabbage2000-lab/study-sheet/actions/runs/42202835676",
+  "linuxCIResult": "success",
+  "codexSession": "completed; permission-reviewed browser retry",
+  "claudeSession": "completed; HTML screenshot checked by host, PDF checked independently"
 }

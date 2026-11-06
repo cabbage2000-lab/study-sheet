@@ -26,9 +26,9 @@ Codex 按[当前官方文档](https://developers.openai.com/codex/skills)使用 
 | --- | --- |
 | 三种项目级安装目录 | 安装器测试通过，并完成真实资源复制；不等同于宿主会话验收 |
 | macOS 干净目录安装及完整测试 | Node.js 24.13.0；独立 npm ci、类型检查、11 项单测、5 项浏览器测试与三科样张生成全部通过 |
-| Linux GitHub Actions | 待远程运行 |
+| Linux GitHub Actions | Node.js 22，安装、类型检查、11 项单测、5 项浏览器测试全部通过；[运行记录](https://github.com/cabbage2000-lab/study-sheet/actions/runs/42202835676) |
 | Codex CLI 0.167.0 | 项目技能发现、文本输入、HTML/PDF、答案册与页面检查通过；首次 Chrome 沙箱启动失败，经授权重试成功 |
-| Claude Code 2.1.318 | 项目技能已生成两题 HTML/PDF 和答案册，产物独立检查通过；宿主最终页面验收进行中 |
-| WorkBuddy 5.9.3 | 应用已安装；当前自动化环境不支持操作原生应用，待人工会话验收 |
+| Claude Code 2.1.318 | 项目技能发现、文本输入、HTML/PDF、答案册通过；宿主检查 HTML 截图，PDF 另经本次发布流程独立核验 |
+| WorkBuddy 5.9.3 | 应用已安装；用户确认先发布并标注待验证，待人工会话验收 |
 
 测试记录会随发布验证更新。当前不声明 Windows 或三个宿主的图片识别均已通过。
