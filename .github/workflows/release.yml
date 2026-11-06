@@ -14,8 +14,8 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
           cache: npm
@@ -34,4 +34,10 @@ jobs:
       - name: Create draft release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" dist/* --verify-tag --draft --title "study-sheet $GITHUB_REF_NAME" --notes-file CHANGELOG.md
+        run: |
+          if gh release view "$GITHUB_REF_NAME" --json isDraft > "$RUNNER_TEMP/release.json"; then
+            node -e "if (!require(process.env.RUNNER_TEMP + '/release.json').isDraft) { console.error('Refusing to replace a published release'); process.exit(1); }"
+            gh release upload "$GITHUB_REF_NAME" dist/* --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/* --verify-tag --draft --title "study-sheet $GITHUB_REF_NAME" --notes-file CHANGELOG.md
+          fi
