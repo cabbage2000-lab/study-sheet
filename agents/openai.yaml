@@ -1,0 +1,4 @@
+interface:
+  display_name: "学习任务纸"
+  short_description: "自动整理中小学英语、数学和语文练习，生成保留书写空间的可打印任务纸"
+  default_prompt: "使用 $study-sheet 将我的学习内容整理成可打印的练习纸，自动识别学科并合理分页。"

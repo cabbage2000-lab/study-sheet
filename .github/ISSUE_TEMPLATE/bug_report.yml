@@ -1,0 +1,24 @@
+name: 问题反馈
+description: 报告安装、排版或 PDF 生成问题
+body:
+  - type: textarea
+    id: environment
+    attributes:
+      label: 运行环境
+      description: 操作系统、Node.js、浏览器、宿主及其版本
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤与期望结果
+      description: 请使用虚构题目或最小 JSON，不要上传学生个人信息。
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 实际结果
+      description: 错误信息、report.json 或经过脱敏的页面截图
+    validations:
+      required: true

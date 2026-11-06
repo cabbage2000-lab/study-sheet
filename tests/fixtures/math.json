@@ -1,0 +1,25 @@
+{
+  "version": 1, "title": "数学错题重做", "grade": "小学四至六年级",
+  "sections": [
+    { "task": "oral", "items": [
+      { "expression": "36 + 47" }, { "expression": "92 - 38" },
+      { "expression": "8 × 7" }, { "expression": "84 ÷ 12" },
+      { "expression": "0.6 + 0.25" }, { "expression": "3.5 × 2" },
+      { "expression": "1/3 + 1/6", "prompt": "\\(\\frac{1}{3} + \\frac{1}{6} =\\)" },
+      { "expression": "5/8 - 1/4", "prompt": "\\(\\frac{5}{8} - \\frac{1}{4} =\\)" },
+      { "expression": "125 × 8" }
+    ]},
+    { "task": "vertical", "items": [
+      { "expression": "248 × 36" }, { "expression": "936 ÷ 24" },
+      { "expression": "12.6 × 3.4" }, { "expression": "45.6 ÷ 1.2" }
+    ]},
+    { "task": "steps", "items": [
+      { "expression": "(125 + 75) × 8 - 360" },
+      { "expression": "3/4 ÷ (1/2 + 1/4)", "prompt": "\\(\\frac{3}{4} \\div (\\frac{1}{2} + \\frac{1}{4})\\)" }
+    ]},
+    { "task": "word-problem", "items": [
+      { "prompt": "学校买来 12 盒彩色粉笔，每盒 24 支。平均分给 8 个班，每个班分到多少支？请列式并写出答句。", "answer": "12 × 24 ÷ 8 = 36（支）。答：每个班分到 36 支。", "answerVerified": true },
+      { "prompt": "一条绳子长 3.6 米，剪去全长的四分之一后，还剩多少米？", "answer": "3.6 × (1 − 1/4) = 2.7（米）。答：还剩 2.7 米。", "answerVerified": true }
+    ]}
+  ]
+}

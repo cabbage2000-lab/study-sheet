@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "title": "英语词汇巩固练习",
+  "grade": "小学三年级",
+  "sections": [
+    {
+      "subject": "english", "task": "zh-en", "lineStyle": "four-line",
+      "instructions": "根据中文写出英文单词，注意字母占格。",
+      "items": [
+        { "english": "apple", "chinese": "苹果" },
+        { "english": "banana", "chinese": "香蕉" },
+        { "english": "orange", "chinese": "橙子" },
+        { "english": "pencil", "chinese": "铅笔" },
+        { "english": "ruler", "chinese": "尺子" },
+        { "english": "school", "chinese": "学校" },
+        { "english": "teacher", "chinese": "教师" },
+        { "english": "friend", "chinese": "朋友" },
+        { "english": "family", "chinese": "家庭" },
+        { "english": "mother", "chinese": "妈妈" },
+        { "english": "father", "chinese": "爸爸" },
+        { "english": "sister", "chinese": "姐姐；妹妹" }
+      ]
+    },
+    {
+      "subject": "english", "task": "en-zh", "title": "词义回顾",
+      "items": [
+        { "english": "breakfast", "chinese": "早餐" },
+        { "english": "library", "chinese": "图书馆" },
+        { "english": "beautiful", "chinese": "美丽的" },
+        { "english": "careful", "chinese": "小心的；仔细的" }
+      ]
+    }
+  ]
+}

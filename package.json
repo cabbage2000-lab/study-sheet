@@ -1,0 +1,36 @@
+{
+  "name": "study-sheet",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Printable A4 English, math and Chinese worksheets for agent skills",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/cabbage2000-lab/study-sheet.git" },
+  "bugs": { "url": "https://github.com/cabbage2000-lab/study-sheet/issues" },
+  "homepage": "https://github.com/cabbage2000-lab/study-sheet#readme",
+  "type": "module",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "generate": "node --import tsx scripts/generate.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/unit.test.ts tests/publish-directory.test.ts tests/install.test.ts",
+    "test:browser": "node --import tsx --test tests/browser.test.ts",
+    "samples": "node --import tsx scripts/samples.ts",
+    "examples": "node --import tsx scripts/examples.ts",
+    "install:skill": "node --import tsx scripts/install.ts"
+  },
+  "dependencies": {
+    "@chenglou/pretext": "1.0.0",
+    "esbuild": "^0.25.0",
+    "katex": "^0.16.22",
+    "playwright": "^1.56.0"
+  },
+  "devDependencies": {
+    "@types/katex": "^0.16.7",
+    "@types/node": "^22.0.0",
+    "pdf-lib": "^1.17.1",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}

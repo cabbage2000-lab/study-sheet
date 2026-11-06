@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-06",
+  "platform": "macOS",
+  "node": "24.13.0",
+  "cleanInstall": true,
+  "typecheck": "passed",
+  "unitTests": 11,
+  "browserTests": 5,
+  "samples": {
+    "english": 2,
+    "math": 3,
+    "chinese": 2
+  },
+  "titleNegativeControl": "left-aligned text detected",
+  "hostArtifacts": {
+    "codex": {
+      "questions": 2,
+      "studentPages": 1,
+      "answerPages": 1,
+      "a4": true,
+      "studentAnswerIsolation": true,
+      "answersPresent": true
+    },
+    "claude": {
+      "questions": 2,
+      "studentPages": 1,
+      "answerPages": 1,
+      "a4": true,
+      "studentAnswerIsolation": true,
+      "answersPresent": true
+    }
+  },
+  "workbuddy": "pending native app session validation",
+  "linuxCI": "pending first remote run"
+}

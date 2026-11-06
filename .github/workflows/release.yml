@@ -1,0 +1,37 @@
+name: Release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  checks:
+    uses: ./.github/workflows/ci.yml
+  package:
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Check version
+        run: node -e "const p=require('./package.json'); if(process.env.GITHUB_REF_NAME !== 'v'+p.version) process.exit(1)"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Select the installed Playwright browser
+        run: node --input-type=module -e "import { chromium } from 'playwright'; console.log('STUDY_SHEET_CHROME=' + chromium.executablePath())" >> "$GITHUB_ENV"
+      - run: npm run samples
+      - name: Package
+        run: |
+          mkdir -p dist
+          git archive --format=zip --prefix=study-sheet/ --output="dist/study-sheet-${GITHUB_REF_NAME}.zip" HEAD
+          tar -czf "dist/study-sheet-samples-${GITHUB_REF_NAME}.tar.gz" -C output samples
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --verify-tag --draft --title "study-sheet $GITHUB_REF_NAME" --notes-file CHANGELOG.md

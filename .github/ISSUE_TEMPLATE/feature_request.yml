@@ -1,0 +1,15 @@
+name: 功能建议
+description: 提出题型、排版或使用流程的改进
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 使用场景与问题
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 期望行为与示例
+    validations:
+      required: true
